@@ -36,7 +36,6 @@ class Barrier(NLP):
         y = np.sum(x) - self.k * np.sum(np.log(x))
         J = np.ones(self.n) - self.k / x
 
-        print("y", y)
         return np.array([y]), J.reshape(1, -1)
 
     def getDimension(self):
