@@ -41,7 +41,7 @@ class testGradientDescent(unittest.TestCase):
     def testBarrier(self):
 
         problem = NLPTraced(Barrier())
-        solution = np.zeros(2)
+        solution = 0.01 * np.ones(2)
         x = solve(problem)
         self.assertTrue(np.linalg.norm(x-solution) < 1e-3)
 

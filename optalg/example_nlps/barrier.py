@@ -69,7 +69,10 @@ class Barrier(NLP):
         ------
         NLP.getInitializationSample
         """
-        return np.ones(self.n)
+        out =  np.ones(self.n)
+        out[0] = 1.5 
+        return out
+
 
     def report(self, verbose):
         """
