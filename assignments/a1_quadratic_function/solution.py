@@ -70,7 +70,6 @@ class NLP_xCCx(NLP):
         ------
         NLP.getFHessian
         """
-
         H = self.finite_diff_hess(self.f, x, self.delta)
 
         return H
