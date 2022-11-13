@@ -39,7 +39,6 @@ class NLP_nonlinear(NLP):
         ----
         NLP.evaluate
         """
-
         y = self.f(x)
         J = self.finite_diff_grad(self.f, x, self.delta)
 
