@@ -45,16 +45,41 @@ def solve(nlp: NLP):
     (1D np.array) of phi[0].
 
     """
+    x = nlp.getInitializationSample()
+    phi, J = nlp.evaluate(x)
+    
+    """
+    init params
+    """
+    rho_alpha_plus = 1.2
+    rho_alpha_minus = 0.5
+    delta_max = np.inf
+    rho_ls = 0.01
+    theta = 1e-3
+    alpha= 1.0
+    delta = 1
+    iter = 0
+    
+    while np.linalg.norm(alpha*delta) >= theta:
+        phi,J = nlp.evaluate(x)
+        delta = -J/np.linalg.norm(J)
+        
+        while nlp.evaluate(x+alpha*delta[0])[0] > phi +rho_ls*np.dot(J[0],alpha*delta[0]):
+            alpha = alpha*rho_alpha_minus
+            
+        x += alpha*delta[0]
+        alpha = min(rho_alpha_plus*alpha,delta_max)
+        
 
     # sanity check on the input nlp
     assert len(nlp.getFeatureTypes()) == 1
     assert nlp.getFeatureTypes()[0] == OT.f
 
     # get start point
-    x = nlp.getInitializationSample()
+    #x = nlp.getInitializationSample()
 
     #
     # Write your code here
     #
-
+    print(f'finished after #{iter} iterations at x:{x}')
     return x
