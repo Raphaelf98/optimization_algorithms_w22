@@ -4,7 +4,7 @@ import math
 try:
     from ..interface.nlp import NLP
     from ..interface.objective_type import OT
-except:
+except BaseException:
     from interface.nlp import NLP
     from interface.objective_type import OT
 
@@ -47,7 +47,8 @@ class Logistic(NLP):
         K = x[0]
         r = x[1]
         t0 = x[2]
-        return -1 * K / (1.0 + np.exp(-r * (t - t0)))**2 * -1 * (t - t0) * np.exp(-r * (t - t0))
+        return -1 * K / (1.0 + np.exp(-r * (t - t0)))**2 * - \
+            1 * (t - t0) * np.exp(-r * (t - t0))
 
     def y_d3(self, t, x):
         """
@@ -56,7 +57,8 @@ class Logistic(NLP):
         K = x[0]
         r = x[1]
         t0 = x[2]
-        return -1 * K / (1.0 + np.exp(-r * (t - t0)))**2 * r * np.exp(-r * (t - t0))
+        return -1 * K / (1.0 + np.exp(-r * (t - t0)))**2 * \
+            r * np.exp(-r * (t - t0))
 
     def generate_data(self, t):
         self.data = self.y(t, self.xopt)

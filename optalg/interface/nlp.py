@@ -11,7 +11,7 @@ class NLP():
              phi_ineq(x) <= 0
              B_lo <= x <= B_up
 
-    where: 
+    where:
     x is a continous variable, in vector space R^n
     f is a scalar function
     phi_sos is a vector of residuals (sum-of-square cost term)
@@ -32,8 +32,8 @@ class NLP():
     def evaluate(self, x):
         """
         query the NLP at a point x; returns the tuple (phi,J), which is
-        the feature vector and its Jacobian; features define cost terms, 
-        sum-of-square (sos) terms, inequalities, and 
+        the feature vector and its Jacobian; features define cost terms,
+        sum-of-square (sos) terms, inequalities, and
         equalities depending on 'getFeatureTypes'
 
         Parameters

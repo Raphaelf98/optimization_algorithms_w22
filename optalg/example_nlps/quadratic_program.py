@@ -4,18 +4,12 @@ import numpy as np
 try:
     from ..interface.nlp import NLP
     from ..interface.objective_type import OT
-except:
+except BaseException:
     from interface.nlp import NLP
     from interface.objective_type import OT
 
 
 class QuadraticProgram(NLP):
-
-    """
-    REF https://coin-or.github.io/Ipopt/INTERFACES.html
-    solution is:
-    x∗=(1.00000000,4.74299963,3.82114998,1.37940829).
-    """
 
     def __init__(self, H, g, Aineq=[], bineq=[], Aeq=[], beq=[], lb=[], ub=[]):
         """
@@ -45,6 +39,7 @@ class QuadraticProgram(NLP):
 
         # cost
         f = 0.5 * x @ (self.H @ x) + self.g @ x
+        print("cost at ", x, " is ", f)
         df = self.H @ x + self.g
 
         phi = np.array([f])
@@ -86,7 +81,6 @@ class QuadraticProgram(NLP):
 
     def getFHessian(self, x):
         """
-        Ref: https://www.wolframalpha.com/input/?i=hessian+of+++%28+a+-+x+%29+%5E+2+%2B+b+%28+y+-+x%5E2+%29+%5E+2
 
         See Also
         ------

@@ -1,3 +1,8 @@
+# gradient:
+# sin(.5*|| Ax -b ||)(Ax-b) A
+# hessian
+# cos(.5 * || Ax -b ||) (Ax-b) A (Ax-b) A + sin(.5*|| Ax -b ||) A^T A
+
 import math
 import numpy as np
 
@@ -5,24 +10,18 @@ from ..interface.nlp import NLP
 from ..interface.objective_type import OT
 
 
-class Barrier(NLP):
+class Cos_lsqs(NLP):
     """
-    f =  sum(x) - k sum( log(x_i)  )
-    x in R^n
-    k in R
-    sos = []
-    eq = []
-    ineq = []
-    bounds = ( [ -inf , -inf, ... ], [ inf, inf, ...] )
+    f = - cos( .5 * || Ax - b ||^2 ) + alpha || x || ^ 2
+
     """
 
-    def __init__(self, n=2, k=1e-2):
+    def __init__(self, A=np.eye(2), b=np.zeros(2)):
         """
         """
-        self.k = k
-        self.n = n
-        self.inf = 1e20
-        self.delta = 1e-6
+        self.A = A
+        self.b = b
+        self.alpha = .1
 
     def evaluate(self, x):
         """
@@ -31,12 +30,12 @@ class Barrier(NLP):
         NLP.evaluate
         """
 
-        if np.sum(x < self.delta):
-            return np.array([self.inf]), np.zeros((1, self.n))
-
-        y = np.sum(x) - self.k * np.sum(np.log(x))
-        J = np.ones(self.n) - self.k / x
-
+        A = self.A
+        b = self.b
+        r = A @ x - b
+        Axb2 = np.dot(r, r)
+        y = - np.cos(.5 * Axb2) + self.alpha * np.dot(x, x)
+        J = np.sin(.5 * Axb2) * r @ A + 2 * self.alpha * x
         return np.array([y]), J.reshape(1, -1)
 
     def getDimension(self):
@@ -45,7 +44,7 @@ class Barrier(NLP):
         ------
         NLP.getDimension
         """
-        return self.n
+        return self.A.shape[1]
 
     def getFHessian(self, x):
         """
@@ -53,10 +52,14 @@ class Barrier(NLP):
         ------
         NLP.getFHessian
         """
-        # -k log( x)
-        # d/dx is -k / x
-        # d^2/dx^2 is k / x^2
-        return np.diag(self.k / x ** 2)
+        A = self.A
+        b = self.b
+        r = A @ x - b
+        Axb2 = np.dot(r, r)
+        H1 = np.cos(.5 * Axb2) * np.outer(r@A, r@A)
+        H2 = np.sin(.5 * Axb2) * A.T @ A
+
+        return H1 + H2 + 2 * self.alpha * np.eye(len(x))
 
     def getFeatureTypes(self):
         """
@@ -72,9 +75,8 @@ class Barrier(NLP):
         ------
         NLP.getInitializationSample
         """
-        out = np.ones(self.n)
-        out[0] = 1.5
-        return out
+        n = self.A.shape[1]
+        return .1 * np.ones(n)
 
     def report(self, verbose):
         """

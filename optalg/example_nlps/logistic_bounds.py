@@ -4,14 +4,14 @@ import math
 try:
     from ..interface.nlp import NLP
     from ..interface.objective_type import OT
-except:
+except BaseException:
     from interface.nlp import NLP
     from interface.objective_type import OT
 
 
 try:
     from .logistic import Logistic
-except:
+except BaseException:
     from logistic import Logistic
 
 
@@ -45,7 +45,8 @@ class LogisticWithBounds(NLP):
         ub = x - self.UB
         # -x <= -LB
         lb = -x + self.LB
-        return np.concatenate((phi, ub, lb)), np.vstack((j, np.identity(3), -1 * np.identity(3)))
+        return np.concatenate((phi, ub, lb)), np.vstack(
+            (j, np.identity(3), -1 * np.identity(3)))
 
     def getDimension(self):
         """

@@ -3,7 +3,7 @@ import numpy as np
 try:
     from ..interface.nlp import NLP
     from ..interface.objective_type import OT
-except:
+except BaseException:
     from interface.nlp import NLP
     from interface.objective_type import OT
 
@@ -56,7 +56,8 @@ class Hs071(NLP):
         Jb[:4, :] = np.identity(4)
         Jb[4:, :] = -1 * np.identity(4)
 
-        return np.concatenate((np.array([f]), g, bU, bL)), np.vstack((grad_f, Jg, Jb))
+        return np.concatenate(
+            (np.array([f]), g, bU, bL)), np.vstack((grad_f, Jg, Jb))
 
     def getDimension(self):
         """
