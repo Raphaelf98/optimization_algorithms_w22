@@ -12,7 +12,7 @@ from optalg.interface.nlp_traced import NLPTraced
 MAX_EVALUATE = 10000
 
 
-class testGradientDescent(unittest.TestCase):
+class testLogBarrier(unittest.TestCase):
 
     def testLinear1(self):
 

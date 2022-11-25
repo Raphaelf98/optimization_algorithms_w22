@@ -21,8 +21,7 @@ def solve(nlp: NLP):
     Task:
     ---
 
-    Implement a solver for unconstrained optimization. See instructions and
-    requirements in the coding assignment PDF in ISIS.
+    See instructions and requirements in the coding assignment PDF in ISIS.
 
     Notes:
     ---

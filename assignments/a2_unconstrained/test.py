@@ -12,7 +12,7 @@ from optalg.example_nlps.quadratic import Quadratic
 from optalg.interface.nlp_traced import NLPTraced
 
 
-class testSolver(unittest.TestCase):
+class testSolverUnconstrained(unittest.TestCase):
     """
     """
 
@@ -95,7 +95,7 @@ class testSolver(unittest.TestCase):
         solution = np.ones(N)
         self.assertTrue(np.linalg.norm(x - solution) < 1e-3)
 
-    def test_Cos_lsqs(self):
+    def testCosLsqs(self):
 
         A = .1 * np.array([[1., 2., 3.], [4, 5, 6]])
         b = np.zeros(2)
