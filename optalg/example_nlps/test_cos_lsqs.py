@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../..")
 
-from optalg.example_nlps.barrier import Barrier as Problem
+from optalg.example_nlps.cos_lsqs import Cos_lsqs as Problem
 from optalg.interface.nlp import NLP
 from optalg.utils.finite_diff import *
 import numpy as np
@@ -19,21 +19,27 @@ class testBarrier(unittest.TestCase):
         self.problem()
 
     def testJacobian(self):
-        problem = self.problem()
+        A = np.array(([[1., 2.], [3., 4], [5., 6.]]))
+        b = np.array([1., 2., 3.])
+        problem = self.problem(A, b)
         x = np.array([0.1, 0.3])
         flag, _, _ = check_nlp(
             problem.evaluate, x, 1e-5, True)
         self.assertTrue(flag)
 
     def testJacobian2(self):
-        problem = self.problem()
+        A = np.array(([[1., 2.], [3., 4], [5., 6.]]))
+        b = np.array([1., 2., 3.])
+        problem = self.problem(A, b)
         x = np.array([0.5, 0.8])
         flag, _, _ = check_nlp(
             problem.evaluate, x, 1e-5, True)
         self.assertTrue(flag)
 
     def testJacobian3(self):
-        problem = self.problem()
+        A = np.array(([[1., 2.], [3., 4], [5., 6.]]))
+        b = np.array([1., 2., 3.])
+        problem = self.problem(A, b)
         x = np.array([-0.5, 0.8])
         flag, _, _ = check_nlp(
             problem.evaluate, x, 1e-5, True)
@@ -41,7 +47,9 @@ class testBarrier(unittest.TestCase):
 
     def testHessian(self):
 
-        problem = self.problem()
+        A = np.array(([[1., 2.], [3., 4], [5., 6.]]))
+        b = np.array([1., 2., 3.])
+        problem = self.problem(A, b)
         x = np.array([.5, .8])
         H = problem.getFHessian(x)
 

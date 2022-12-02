@@ -4,7 +4,7 @@ import math
 try:
     from ..interface.nlp import NLP
     from ..interface.objective_type import OT
-except:
+except BaseException:
     from interface.nlp import NLP
     from interface.objective_type import OT
 

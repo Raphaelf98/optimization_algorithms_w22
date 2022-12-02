@@ -58,7 +58,7 @@ class Rosenbrock(NLP):
         ------
         NLP.getInitializationSample
         """
-        return np.array([1, 1])
+        return np.array([1., 1.])
 
     def getFHessian(self, x):
         """

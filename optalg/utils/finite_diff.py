@@ -43,6 +43,7 @@ def finite_diff_J(nlp, x, eps=1e-5):
     """
     """
     n = x.size
+
     J_num = np.zeros((len(nlp.getFeatureTypes()), n))
     for i in range(n):
         ei = np.zeros(n)
