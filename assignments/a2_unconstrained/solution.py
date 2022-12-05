@@ -57,8 +57,48 @@ def solve(nlp: NLP):
     #
     # Write your code here
     #
+    phi, J = nlp.evaluate(x)
+    
+    """
+    init params
+    """
+    rho_alpha_plus = 1.2
+    rho_alpha_minus = 0.5
+    rho_ls = 0.005
+    theta = 1e-4
+    alpha= 1.0
+    delta = np.eye(2)
+    iter = 0
+    lam = 10e-3
+    while np.linalg.norm(alpha*delta,np.inf) >= theta:
+        phi,J = nlp.evaluate(x)
+        
+        A = nlp.getFHessian(x)
+        min_eig_val = np.linalg.eigvalsh(A)[0]
+        while True:
+            try:
+                np.linalg.cholesky(A)
+                
+            except:
+                #print("non-pos-def fallback")
+                A -= np.identity(A.shape[0])*(min_eig_val - lam)
+                #print(f'A NEW: {A} updated with {np.linalg.eigvalsh(A)[0]}')
 
+            else: 
+                break
+
+        delta = -np.linalg.inv(A)@J[0]
+            
+
+        
+        while nlp.evaluate(x+alpha*delta)[0] > phi +rho_ls*np.dot(J[0],alpha*delta):
+            alpha = alpha*rho_alpha_minus
+            #print(alpha)
+        x += alpha*delta
+        alpha = min(rho_alpha_plus*alpha,1)
+        iter += 1
 
 
     # return found solution
+    #print(f'finished after #{iter} iterations at x:{x}')
     return x
