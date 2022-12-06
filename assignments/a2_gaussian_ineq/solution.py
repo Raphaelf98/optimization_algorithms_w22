@@ -33,8 +33,8 @@ class NLP_Gaussina_ineq(NLP):
         """
         self.x0 = x0
         self.D = D
-        self.A = A
-        self.b = b
+        self.Aineq  = A
+        self.bineq = b
 
     def evaluate(self, x):
         """
@@ -62,10 +62,21 @@ class NLP_Gaussina_ineq(NLP):
         ----
         NLP.evaluate
         """
+        f= -np.exp(-(x-self.x0)@self.D@(x-self.x0))
 
+        df = np.exp(-(x-self.x0)@self.D@(x-self.x0))*2*self.D@(x-self.x0)
+
+
+        y = np.array([f])
+        J = df.reshape(1, -1)
+        if len(self.Aineq) > 0:
+            y  = np.concatenate((y , self.Aineq @ x - self.bineq))
+            J = np.vstack((J, self.Aineq))
+
+        
         # y =
         # J =
-        # return y, J
+        return y, J
 
 
     def getDimension(self):
@@ -90,10 +101,14 @@ class NLP_Gaussina_ineq(NLP):
         See Also
         ------
         NLP.getFHessian
-        """
 
-        # H = ...
-        # return H
+        """
+        
+        ddf = 2*np.exp(-(x-self.x0).T@self.D@(x-self.x0))*self.D - 4*np.exp(-(x-self.x0).T@(self.D@x-self.x0))*self.D@(x-self.x0)@((x-self.x0).T@self.D)
+        #print(ddf)
+        H = ddf
+        print(H)
+        return H
 
 
     def getInitializationSample(self):
@@ -110,7 +125,7 @@ class NLP_Gaussina_ineq(NLP):
         ------
         NLP.getInitializationSample
         """
-        return [OT.f] + self.A.shape[0] * [OT.ineq]
+        return [OT.f] + self.Aineq.shape[0] * [OT.ineq]
 
     def report(self, verbose):
         """
