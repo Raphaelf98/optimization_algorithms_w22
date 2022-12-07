@@ -74,6 +74,27 @@ class test_NLP_Gaussian_ineq(unittest.TestCase):
 
         tol = 1e-4
         Hdiff = finite_diff_hess(f, x, tol)
+        print(Hdiff)
+        self.assertTrue(np.allclose(H, Hdiff, 10 * tol, 10 * tol))
+
+    def testHessian1(self):
+
+        D = np.array([[2, 1], [1, 2]])
+        A = np.array([[1., 2.], [3., 4.]])
+        b = np.array([0., 1.])
+        x0 = np.array([.5, .1])
+
+        problem = NLP_Gaussina_ineq(x0, D, A, b)
+
+        x = np.array([-2, .2])
+        H = problem.getFHessian(x)
+
+        def f(x):
+            return problem.evaluate(x)[0][0]
+
+        tol = 1e-5
+        Hdiff = finite_diff_hess(f, x, tol)
+        print(Hdiff)
         self.assertTrue(np.allclose(H, Hdiff, 10 * tol, 10 * tol))
 
 

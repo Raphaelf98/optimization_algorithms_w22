@@ -104,10 +104,13 @@ class NLP_Gaussina_ineq(NLP):
 
         """
         
-        ddf = 2*np.exp(-(x-self.x0).T@self.D@(x-self.x0))*self.D - 4*np.exp(-(x-self.x0).T@(self.D@x-self.x0))*self.D@(x-self.x0)@((x-self.x0).T@self.D)
-        #print(ddf)
+        
+    
+        h = self.D@(x-self.x0)[:, np.newaxis]
+        h = h@h.T
+        ddf = 2*np.exp(-(x-self.x0).T@self.D@(x-self.x0))*self.D - 4*np.exp(-(x-self.x0).T@self.D@(x-self.x0))*h
         H = ddf
-        print(H)
+        
         return H
 
 
