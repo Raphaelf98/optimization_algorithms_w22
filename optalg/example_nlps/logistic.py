@@ -75,7 +75,7 @@ class Logistic(NLP):
         J[:, 0] = self.y_d1(t, x)
         J[:, 1] = self.y_d2(t, x)
         J[:, 2] = self.y_d3(t, x)
-        return phi, J
+        return np.concatenate(([0.], phi)), np.vstack((np.zeros(len(x)), J))
 
     def getDimension(self):
         """
@@ -91,7 +91,7 @@ class Logistic(NLP):
         ------
         NLP.getFeatureTypes
         """
-        return [OT.r] * self.num_points
+        return [OT.f] + [OT.r] * self.num_points
 
     def getInitializationSample(self):
         """

@@ -20,7 +20,7 @@ class testNonLinearA(unittest.TestCase):
 
     def testOptimum(self):
         # n = 4
-        x = np.array([1, 0])
+        x = np.array([1., 0.])
         problem = self.problem()
         phi, J = problem.evaluate(x)
         print("optimum")
@@ -44,7 +44,7 @@ class testNonLinearA(unittest.TestCase):
 
     def testJacobian(self):
         problem = self.problem()
-        x = np.array([1, -1])
+        x = np.array([1., -1.])
         flag, _, _ = check_nlp(
             problem.evaluate, x, 1e-5, True)
         self.assertTrue(flag)
@@ -62,6 +62,8 @@ class testNonLinearA(unittest.TestCase):
 
         tol = 1e-4
         Hdiff = finite_diff_hess(f, x, tol)
+        print(Hdiff)
+        print(H)
         flag = np.allclose(H, Hdiff, 10 * tol, 10 * tol)
         self.assertTrue(flag)
 

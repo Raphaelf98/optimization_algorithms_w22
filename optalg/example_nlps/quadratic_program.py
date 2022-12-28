@@ -39,7 +39,6 @@ class QuadraticProgram(NLP):
 
         # cost
         f = 0.5 * x @ (self.H @ x) + self.g @ x
-        print("cost at ", x, " is ", f)
         df = self.H @ x + self.g
 
         phi = np.array([f])
