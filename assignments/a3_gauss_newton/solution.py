@@ -62,10 +62,66 @@ def solve(nlp: NLP):
     x = nlp.getInitializationSample()
 
     types = nlp.getFeatureTypes()
-
-    #
-    # Write your code Here
-    #
+    id_f = [i for i, t in enumerate(types) if t == OT.f]
+    id_r = [i for i, t in enumerate(types) if t == OT.r]
 
 
+    phi, J = nlp.evaluate(x)
+
+    def total_cost(x):
+        phi, J = nlp.evaluate(x)
+        return phi[id_f[0]] + np.dot(phi[id_r], phi[id_r])
+
+    """
+    init params
+    """
+    rho_alpha_plus = 1.2
+    rho_alpha_minus = 0.5
+    rho_ls = 0.01
+    theta = 1e-4
+    alpha= 1.0
+    delta = np.eye(2)
+    iter = 0
+    lam = 10e-3
+
+    while np.linalg.norm(alpha*delta,np.inf) >= theta:
+        
+        phi, J = nlp.evaluate(x)
+        phi_total = phi[id_f[0]] + np.dot(phi[id_r], phi[id_r])
+        H_sos = 2*J[id_r].T@J[id_r]
+        J_total = J[id_f[0]] + 2*J[id_r].T@phi[id_r]
+        H_f = nlp.getFHessian(x)
+
+        min_eig_val = np.linalg.eigvalsh(H_f)[0]
+
+        while True:
+            try:
+                np.linalg.cholesky(H_f)
+                
+            except:
+                #print("non-pos-def fallback")
+                H_f -= np.identity(H_f.shape[0])*(min_eig_val - lam)
+                #print(f'A NEW: {A} updated with {np.linalg.eigvalsh(A)[0]}')
+
+            else: 
+                break
+
+
+        A = H_f + H_sos
+
+        delta = -np.linalg.inv(A)@J_total
+            
+
+        
+        while total_cost(x+alpha*delta) > phi_total +rho_ls*np.dot(J_total,alpha*delta):
+
+            alpha = alpha*rho_alpha_minus
+            #print(alpha)
+        x += alpha*delta
+        alpha = min(rho_alpha_plus*alpha,1)
+        iter += 1
+
+
+    # return found solution
+    #print(f'finished after #{iter} iterations at x:{x}')
     return x

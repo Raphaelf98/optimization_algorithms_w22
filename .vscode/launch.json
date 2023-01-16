@@ -1,5 +1,13 @@
 {
     "configurations": [
-    
+        {
+            "name": "A3 Gauss Newton",
+            "type": "python",
+            "request": "launch",
+            "program": "/home/raphael/oa/optimization_algorithms_w22/assignments/a3_gauss_newton/test.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+           "env": { "PYTHONPATH": "${workspaceRoot}"}
+        }
     ]
 }
