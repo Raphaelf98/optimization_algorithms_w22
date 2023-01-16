@@ -64,7 +64,7 @@ def solve(nlp: NLP):
     """
     rho_alpha_plus = 1.2
     rho_alpha_minus = 0.5
-    rho_ls = 0.005
+    rho_ls = 0.01
     theta = 1e-4
     alpha= 1.0
     delta = np.eye(2)

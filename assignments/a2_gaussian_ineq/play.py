@@ -24,3 +24,8 @@ H = problem.getFHessian(x)
 print(y)
 print(J)
 print(H)
+def f(x):
+    return problem.evaluate(x)[0][0]
+tol = 1e-4
+Hdiff = finite_diff_hess(f, x, tol)
+print(Hdiff)

@@ -56,7 +56,7 @@ def finite_diff_J(nlp, x, eps=1e-5):
 def check_nlp(fun, x, eps, verbose=False):
     """
     Input:
-    fun: ( np.array 1d , np.array 2d ) = fun( np.array 1d)
+    fun:  ( np.array 1d ) -> ( np.array 1d , np.array 2d )
     x: np.array, 1d
     eps: float
 

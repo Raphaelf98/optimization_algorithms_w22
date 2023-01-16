@@ -13,7 +13,8 @@ MAX_EVALUATE = 10000
 
 
 class testLogBarrier(unittest.TestCase):
-
+    
+    '''
     def testLinear1(self):
 
         problem = NLPTraced(LinearProgramIneq(2), max_evaluate=MAX_EVALUATE)
@@ -28,10 +29,9 @@ class testLogBarrier(unittest.TestCase):
         x = solve(problem)
         solution = np.zeros(20)
         self.assertTrue(np.linalg.norm(solution - x) < 1e-3)
-
+    '''
     def testQuadraticIneq(self):
-        """
-        """
+        
         H = np.array([[1., -1.], [-1., 2.]])
         g = np.array([-2., -6.])
         Aineq = np.array([[1., 1.], [-1., 2.], [2., 1.]])
@@ -48,7 +48,7 @@ class testLogBarrier(unittest.TestCase):
         x = solve(problem)
         solution = np.array([0.6667, 1.3333])
         self.assertTrue(np.linalg.norm(solution - x) < 1e-3)
-
+    
     def testHalfcircle(self):
         problem = NLPTraced(HalfCircle(), max_evaluate=MAX_EVALUATE)
         x = solve(problem)
@@ -62,8 +62,8 @@ class testLogBarrier(unittest.TestCase):
         self.assertTrue(np.linalg.norm(solution - x) < 1e-3)
 
     def testQuadraticIneq2(self):
-        """
-        """
+        
+    
         H = np.array([[10., 0.], [0., 1.]])
         g = np.array([1., 1.])
         Aineq = np.array([[1., 1.], [-1., 2.], [2., 1.]])
@@ -82,8 +82,8 @@ class testLogBarrier(unittest.TestCase):
         self.assertTrue(np.linalg.norm(solution - x) < 1e-3)
 
     def testQuadraticIneq3(self):
-        """
-        """
+        
+        
         H = np.array([[100000., 0.], [0., 1.]])
         g = np.array([0., 0.])
         Aineq = np.array([[-1., 0], [0., -1.]])

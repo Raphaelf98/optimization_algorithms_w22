@@ -19,8 +19,9 @@ class NonlinearA(NLP):
     """
 
     def __init__(self):
-        self.ref0 = 1
-        self.ref1 = 0
+        self.ref0 = 1.
+        self.ref1 = 0.
+        self.w = 10.
 
     def evaluate(self, x):
         """
@@ -30,10 +31,10 @@ class NonlinearA(NLP):
         """
 
         # cost
-        f = -(x[1] - 2)**2 + .5 * (x[0] - self.ref0) ** 2 + .5 * \
-            (x[1] - self.ref1) ** 2
+        f = -(x[1] - 2)**2 + .5 * self.w * (x[0] - self.ref0) ** 2 + .5 * \
+            self.w * (x[1] - self.ref1) ** 2
         grad_f = np.array([0, -2 * (x[1] - 2)])
-        grad_f += np.array([x[0] - self.ref0, x[1] - self.ref1])
+        grad_f += self.w * np.array([x[0] - self.ref0, x[1] - self.ref1])
 
         # constraint
         h = x[0]**2 + x[1] - 1
@@ -85,8 +86,8 @@ class NonlinearA(NLP):
 
         # we fill first lower triangular
         hess[1, 1] = -2
-        hess[0, 0] += 1
-        hess[1, 1] += 1
+        hess[0, 0] += self.w * 1.
+        hess[1, 1] += self.w * 1.
 
         return hess
 
