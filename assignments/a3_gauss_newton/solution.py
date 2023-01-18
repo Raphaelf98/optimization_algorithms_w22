@@ -64,9 +64,7 @@ def solve(nlp: NLP):
     types = nlp.getFeatureTypes()
     id_f = [i for i, t in enumerate(types) if t == OT.f]
     id_r = [i for i, t in enumerate(types) if t == OT.r]
-
     phi, J = nlp.evaluate(x)
-
     def total_cost(x):
         phi, J = nlp.evaluate(x)
         return phi[id_f[0]] + np.dot(phi[id_r], phi[id_r])
