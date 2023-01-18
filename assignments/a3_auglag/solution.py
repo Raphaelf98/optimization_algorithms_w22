@@ -254,10 +254,6 @@ def solve(nlp: NLP):
     id_ineq = [i for i, t in enumerate(types) if t == OT.ineq]
     id_eq = [i for i, t in enumerate(types) if t == OT.eq]
 
-    #
-    # Write your code Here
-    #
-    #TODO Singular error 
 
     y,J = nlp.evaluate(x) 
     
