@@ -65,7 +65,6 @@ def solve(nlp: NLP):
     id_f = [i for i, t in enumerate(types) if t == OT.f]
     id_r = [i for i, t in enumerate(types) if t == OT.r]
 
-
     phi, J = nlp.evaluate(x)
 
     def total_cost(x):
