@@ -3,7 +3,7 @@ from .nlp import NLP
 
 class NLPStochasticTraced(NLP):
 
-    def __init__(self, nlp, max_evaluate=0, max_evaluate_i=1e5):
+    def __init__(self, nlp, max_evaluate=0, max_evaluate_i=1e4):
         self.nlp = nlp
 
         self.counter_evaluate_i = 0
