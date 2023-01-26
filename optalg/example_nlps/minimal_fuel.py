@@ -48,10 +48,12 @@ class MinimumFuel(NLP):
         phi = np.hstack([sos, h_dyn, h_des])
         J = np.concatenate([Jsos, Jh_dyn, Jh_des], axis=0)
 
-        return phi, J
+        return np.concatenate(([0], phi)), np.vstack(
+            (np.zeros(self.getDimension()), J))
 
     def getFeatureTypes(self):
-        return [OT.r] * self.N + [OT.eq] * (self.n * self.N) + [OT.eq] * self.n
+        return [OT.f] + [OT.r] * self.N + [OT.eq] * \
+            (self.n * self.N) + [OT.eq] * self.n
 
     def getDimension(self):
         return self.dim
