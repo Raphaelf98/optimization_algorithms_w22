@@ -133,8 +133,12 @@ class DiffOpt(NLP):
 
         """
 
-        # y = ...
-        # J = ...
+        y = self.c@oracle(x,self.A,self.b)[0]
+        delta_yl_00 = np.array([[2,self.A],[self.A,0]])
+        print(delta_yl_00)
+        
+        #delta_yl = np.array([])
+        J = np.ones(3)
 
 
         return y, J
