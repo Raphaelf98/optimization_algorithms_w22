@@ -41,12 +41,34 @@ def solve(nlp: NLP_stochastic):
     The expected value (over i) of y,J at a given x is SUM_i [ nlp.evaluate_i(x, i) ]  / N
 
     """
-
+    
     x = nlp.getInitializationSample()
     N = nlp.getNumSamples()
 
     #
     # Write your code Here
     #
+    rng = np.random.default_rng()
 
+    N = nlp.getNumSamples()
+    tolerance = np.array(10e-6)
+    lambda_ = 0.3
+    alpha_0 = 1
+
+    k = 0
+    max_query= 10000
+    iter_ = int(max_query / N - 1)
+    print(iter_)
+    for _ in range(iter_): 
+        
+        for i in rng.integers(low = 0, high = N, size = N):
+            
+            phi , grad = nlp.evaluate_i(x,i)
+            #print(phi)
+            learn_rate = alpha_0 / (1 + alpha_0*lambda_*k)
+            diff = - learn_rate * grad[0]
+            k = k + 1
+            if np.all(np.abs(diff) <= tolerance):
+                break
+            x += diff
     return x
